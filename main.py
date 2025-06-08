@@ -33,31 +33,48 @@ def favicon():
 def info(url: str):
     return get_video_formats(url)
 
+# Replace your existing /download and /music_download endpoints with these debug versions:
+
 @app.post("/download")
 def download(url: str = Form(...), format_id: str = Form(...)):
+    print(f"DEBUG: Received download request")
+    print(f"DEBUG: URL: {url}")
+    print(f"DEBUG: Format ID: {format_id}")
+    
     output_template = 'downloads/%(title)s.%(ext)s'
     result = download_video(url, format_id, output_path_template=output_template)
 
+    print(f"DEBUG: Download result: {result}")
+
     if "error" in result:
+        print(f"DEBUG: Error in download: {result['error']}")
         raise HTTPException(status_code=400, detail=result["error"])
 
     files = result.get("paths", [])
-    urls = [f"http://106.202.172.39:9600/downloads/{os.path.basename(f)}" for f in files]
+    urls = [f"http://122.182.161.97:9600/downloads/{os.path.basename(f)}" for f in files]
 
+    print(f"DEBUG: Generated URLs: {urls}")
     return {"status": "success", "download_urls": urls}
 
 @app.post('/music_download')
 def music_download(url: str = Form(...)):
+    print(f"DEBUG: Received music download request")
+    print(f"DEBUG: URL: {url}")
+    
     result = download_audio_with_metadata(url)
+    
+    print(f"DEBUG: Audio download result: {result}")
 
     if "error" in result:
+        print(f"DEBUG: Error in audio download: {result['error']}")
         raise HTTPException(status_code=400, detail=result["error"])
 
     files = result.get("paths", [])
-    urls = [f"http://106.202.172.39:9600/downloads/{os.path.basename(f)}" for f in files]
+    urls = [f"http://122.182.161.97:9600/downloads/{os.path.basename(f)}" for f in files]
 
+    print(f"DEBUG: Generated audio URLs: {urls}")
     return {"status": "success", "download_urls": urls}
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000, log_level="debug")
+    uvicorn.run(app, host="0.0.0.0", port=9600, log_level="debug")
     
