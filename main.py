@@ -50,7 +50,11 @@ def download(url: str = Form(...), format_id: str = Form(...)):
         raise HTTPException(status_code=400, detail=result["error"])
 
     files = result.get("paths", [])
+<<<<<<< HEAD
     urls = [f"http://zap-save.duckdns.org:9600/downloads/{os.path.basename(f)}" for f in files]
+=======
+    urls = [f"http://122.182.161.97:9600/downloads/{os.path.basename(f)}" for f in files]
+>>>>>>> dc599443c8f5d82a1490edae93fd1639db6fb8b4
 
     print(f"DEBUG: Generated URLs: {urls}")
     return {"status": "success", "download_urls": urls}
@@ -69,7 +73,11 @@ def music_download(url: str = Form(...)):
         raise HTTPException(status_code=400, detail=result["error"])
 
     files = result.get("paths", [])
+<<<<<<< HEAD
     urls = [f"http://zap-save.duckdns.org:9600/downloads/{os.path.basename(f)}" for f in files]
+=======
+    urls = [f"http://122.182.161.97:9600/downloads/{os.path.basename(f)}" for f in files]
+>>>>>>> dc599443c8f5d82a1490edae93fd1639db6fb8b4
 
     print(f"DEBUG: Generated audio URLs: {urls}")
     return {"status": "success", "download_urls": urls}
